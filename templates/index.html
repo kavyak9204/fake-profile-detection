@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instagram Scam Detector</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: #fff;
+      margin: 0; padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #3897f0;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2f76cc;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .real {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .fake {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 0.8rem;
+      color: #ddd;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Instagram Scam Detector</h1>
+    <form action="/predict" method="post">
+      <label>Username Length</label>
+      <input type="number" name="username_length" required min="1" max="50" />
+
+      <label>Username Has Number? (0 = No, 1 = Yes)</label>
+      <select name="username_has_number" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Full Name Has Number? (0 = No, 1 = Yes)</label>
+      <select name="full_name_has_number" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Full Name Length</label>
+      <input type="number" name="full_name_length" required min="1" max="50" />
+
+      <label>Is Private? (0 = No, 1 = Yes)</label>
+      <select name="is_private" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Is Joined Recently? (0 = No, 1 = Yes)</label>
+      <select name="is_joined_recently" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Has Channel? (0 = No, 1 = Yes)</label>
+      <select name="has_channel" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Is Business Account? (0 = No, 1 = Yes)</label>
+      <select name="is_business_account" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Has Guides? (0 = No, 1 = Yes)</label>
+      <select name="has_guides" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Has External URL? (0 = No, 1 = Yes)</label>
+      <select name="has_external_url" required>
+        <option value="0">0</option>
+        <option value="1">1</option>
+      </select>
+
+      <label>Number of Followers</label>
+      <input type="number" name="edge_followed_by" required min="0" />
+
+      <label>Number of Followings</label>
+      <input type="number" name="edge_follow" required min="0" />
+
+      <button type="submit">Check Account</button>
+    </form>
+
+    {% if prediction_text %}
+      <div class="result {% if 'Real' in prediction_text %}real{% else %}fake{% endif %}">
+        {{ prediction_text }}
+      </div>
+    {% endif %}
+
+    <div class="note">
+      <p>Note: For all "Yes/No" fields, 0 means No and 1 means Yes.</p>
+    </div>
+  </div>
+</body>
+</html>
